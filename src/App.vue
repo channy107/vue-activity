@@ -11,9 +11,18 @@
       <div class="container">
         <div class="navbar-menu">
           <div class="navbar-start">
-            <a class="navbar-item is-active" href="#">Newest</a>
-            <a class="navbar-item" href="#">In Progress</a>
-            <a class="navbar-item" href="#">Finished</a>
+            <a
+              class="navbar-item is-active"
+              href="#"
+            >Newest</a>
+            <a
+              class="navbar-item"
+              href="#"
+            >In Progress</a>
+            <a
+              class="navbar-item"
+              href="#"
+            >Finished</a>
           </div>
         </div>
       </div>
@@ -23,11 +32,14 @@
         <div class="column is-3">
           <a
             v-if="!isFormDisplayed"
-            @click="toggleFormDisplay"
             class="button is-primary is-block is-alt is-large"
             href="#"
+            @click="toggleFormDisplay"
           >New Activity</a>
-          <div v-if="isFormDisplayed" class="create-form">
+          <div
+            v-if="isFormDisplayed"
+            class="create-form"
+          >
             <h2>Create Activity</h2>
             <form>
               <div class="field">
@@ -38,7 +50,7 @@
                     class="input"
                     type="text"
                     placeholder="Read a Book"
-                  />
+                  >
                 </div>
               </div>
               <div class="field">
@@ -48,15 +60,25 @@
                     v-model="newActivity.notes"
                     class="textarea"
                     placeholder="Write some notes here"
-                  ></textarea>
+                  />
                 </div>
               </div>
               <div class="field is-grouped">
                 <div class="control">
-                  <button @click="createActivity" class="button is-link">Create Activity</button>
+                  <button
+                    class="button is-link"
+                    @click="createActivity"
+                  >
+                    Create Activity
+                  </button>
                 </div>
                 <div class="control">
-                  <button class="button is-text" @click="toggleFormDisplay">Cancel</button>
+                  <button
+                    class="button is-text"
+                    @click="toggleFormDisplay"
+                  >
+                    Cancel
+                  </button>
                 </div>
               </div>
             </form>
@@ -64,7 +86,11 @@
         </div>
         <div class="column is-9">
           <div class="box content">
-            <ActivityItem v-for="activity in activities" :activity="activity" :key="activity.id"></ActivityItem>
+            <ActivityItem
+              v-for="activity in activities"
+              :key="activity.id"
+              :activity="activity"
+            />
           </div>
         </div>
       </div>
@@ -76,7 +102,7 @@
 import ActivityItem from "@/components/ActivityItem";
 import { fetchActivities } from "@/api";
 export default {
-  name: "app",
+  name: "App",
   components: { ActivityItem },
   data() {
     return {
@@ -100,9 +126,29 @@ export default {
       }
     };
   },
-
+  beforeCreate() {
+    console.log("beforeCreate called!");
+  },
   created() {
     this.activities = fetchActivities();
+  },
+  beforeMount() {
+    console.log("beforeMount called!");
+  },
+  mounted() {
+    console.log("mounted called!");
+  },
+  beforeUpdate() {
+    console.log("beforeUpdate called!");
+  },
+  updated() {
+    console.log("updated called!");
+  },
+  beforeDestroy() {
+    console.log("beforeDestroy called!");
+  },
+  destroyed() {
+    console.log("destroyed called!");
   },
 
   methods: {
