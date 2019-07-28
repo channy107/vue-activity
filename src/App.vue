@@ -11,18 +11,9 @@
       <div class="container">
         <div class="navbar-menu">
           <div class="navbar-start">
-            <a
-              class="navbar-item is-active"
-              href="#"
-            >Newest</a>
-            <a
-              class="navbar-item"
-              href="#"
-            >In Progress</a>
-            <a
-              class="navbar-item"
-              href="#"
-            >Finished</a>
+            <a class="navbar-item is-active" href="#">Newest</a>
+            <a class="navbar-item" href="#">In Progress</a>
+            <a class="navbar-item" href="#">Finished</a>
           </div>
         </div>
       </div>
@@ -36,10 +27,7 @@
             href="#"
             @click="toggleFormDisplay"
           >New Activity</a>
-          <div
-            v-if="isFormDisplayed"
-            class="create-form"
-          >
+          <div v-if="isFormDisplayed" class="create-form">
             <h2>Create Activity</h2>
             <form>
               <div class="field">
@@ -50,7 +38,7 @@
                     class="input"
                     type="text"
                     placeholder="Read a Book"
-                  >
+                  />
                 </div>
               </div>
               <div class="field">
@@ -67,18 +55,12 @@
                 <div class="control">
                   <button
                     class="button is-link"
+                    v-bind:disabled="!isFormValid"
                     @click="createActivity"
-                  >
-                    Create Activity
-                  </button>
+                  >Create Activity</button>
                 </div>
                 <div class="control">
-                  <button
-                    class="button is-text"
-                    @click="toggleFormDisplay"
-                  >
-                    Cancel
-                  </button>
+                  <button class="button is-text" @click="toggleFormDisplay">Cancel</button>
                 </div>
               </div>
             </form>
@@ -86,11 +68,7 @@
         </div>
         <div class="column is-9">
           <div class="box content">
-            <ActivityItem
-              v-for="activity in activities"
-              :key="activity.id"
-              :activity="activity"
-            />
+            <ActivityItem v-for="activity in activities" :key="activity.id" :activity="activity" />
           </div>
         </div>
       </div>
@@ -100,7 +78,7 @@
 
 <script>
 import ActivityItem from "@/components/ActivityItem";
-import { fetchActivities } from "@/api";
+import { fetchActivities, fetchUser, fetchCategories } from "@/api";
 export default {
   name: "App",
   components: { ActivityItem },
@@ -115,15 +93,9 @@ export default {
         notes: ""
       },
       items: { 1: { name: "Filip" }, 2: { name: "John" } },
-      user: {
-        name: "Filip Jerga",
-        id: "-Aj34jknvncx98812"
-      },
+      user: {},
       activities: {},
-      categories: {
-        "1546969049": { text: "books" },
-        "1546969225": { text: "movies" }
-      }
+      categories: {}
     };
   },
   beforeCreate() {
@@ -131,26 +103,14 @@ export default {
   },
   created() {
     this.activities = fetchActivities();
+    this.user = fetchUser();
+    this.categories = fetchCategories();
   },
-  beforeMount() {
-    console.log("beforeMount called!");
+  computed: {
+    isFormValid() {
+      return this.newActivity.title && this.newActivity.notes;
+    }
   },
-  mounted() {
-    console.log("mounted called!");
-  },
-  beforeUpdate() {
-    console.log("beforeUpdate called!");
-  },
-  updated() {
-    console.log("updated called!");
-  },
-  beforeDestroy() {
-    console.log("beforeDestroy called!");
-  },
-  destroyed() {
-    console.log("destroyed called!");
-  },
-
   methods: {
     toggleTextDisplay() {
       this.isTextDisplayed = !this.isTextDisplayed;
@@ -161,6 +121,9 @@ export default {
     createActivity() {
       // console.log(this.newActivity);
     }
+    // isFormValid() {
+    //   return this.newActivity.title && this.newActivity.notes;
+    // }
   }
 };
 </script>
